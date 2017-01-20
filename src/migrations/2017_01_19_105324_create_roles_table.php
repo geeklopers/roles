@@ -110,6 +110,7 @@ class CreateGeeklopersTable extends Migration
 
             $table->integer('id_usuario')->index();
             $table->integer('id_permiso')->index();            
+            $table->integer('id_rol')->index();            
 
             $table->tinyInteger('sn_activo');
             $table->tinyInteger('sn_eliminado');
@@ -120,6 +121,7 @@ class CreateGeeklopersTable extends Migration
             $table->primary('id');
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('id_permiso')->references('id')->on('permisos')->onDelete('cascade');
+            $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('roles_permisos', function (Blueprint $table) {
@@ -158,9 +160,9 @@ class CreateGeeklopersTable extends Migration
      */
     public function down()
     {   
-        Schema::drop('permission_role');
-        Schema::drop('permission_user');
-        Schema::drop('role_user');
+        Schema::drop('roles_permisos');
+        Schema::drop('usuarios_permisos');
+        Schema::drop('usuarios_roles');
         Schema::drop('permissions');
         Schema::drop('modulos');
         Schema::drop('roles');

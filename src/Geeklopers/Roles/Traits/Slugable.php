@@ -1,6 +1,6 @@
 <?php
 
-namespace Bican\Roles\Traits;
+namespace Geeklopers\Roles\Traits;
 
 use Illuminate\Support\Str;
 
@@ -12,8 +12,8 @@ trait Slugable
      * @param string $value
      * @return void
      */
-    public function setSlugAttribute($value)
+    public function setVcSlugAttribute($value)
     {
-        $this->attributes['slug'] = Str::slug($value, config('roles.separator'));
+        $this->attributes['vc_slug'] = Str::slug($value, config('roles.separator'));
     }
 }
