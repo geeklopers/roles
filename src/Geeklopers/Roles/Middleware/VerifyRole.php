@@ -1,12 +1,12 @@
 <?php
 
-namespace Bican\Roles\Middleware;
+namespace Geeklopers\Roles\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Bican\Roles\Exceptions\LevelDeniedException;
+use Geeklopers\Roles\Exceptions\RoleDeniedException;
 
-class VerifyLevel
+class VerifyRole
 {
     /**
      * @var \Illuminate\Contracts\Auth\Guard
@@ -29,16 +29,16 @@ class VerifyLevel
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
-     * @param int $level
+     * @param int|string $role
      * @return mixed
-     * @throws \Bican\Roles\Exceptions\LevelDeniedException
+     * @throws \Geeklopers\Roles\Exceptions\RoleDeniedException
      */
-    public function handle($request, Closure $next, $level)
+    public function handle($request, Closure $next, $role)
     {
-        if ($this->auth->check() && $this->auth->user()->level() >= $level) {
+        if ($this->auth->check() && $this->auth->user()->is($role)) {
             return $next($request);
         }
 
-        throw new LevelDeniedException($level);
+        throw new RoleDeniedException($role);
     }
 }

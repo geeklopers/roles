@@ -1,6 +1,6 @@
 <?php
 
-namespace Bican\Roles;
+namespace Geeklopers\Roles;
 
 use Illuminate\Support\ServiceProvider;
 
