@@ -19,3 +19,4 @@ class Usuarios extends Model implements RoleHasRelationsContract
     protected $fillable = ['name', 'slug', 'description', 'level'];
 
 }
+ 
