@@ -1,27 +1,41 @@
 <?php
 
-namespace Bican\Roles\Contracts;
+namespace Geeklopers\Roles\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface HasRoleAndPermission
+interface UsuariosRolesPermisos
 {
     /**
-     * User belongs to many roles.
+     * Usuarios pertenece a muchos roles.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles();
+    
+    /**
+     * User belongs to many permissions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permisos();
 
     /**
-     * Get all roles as collection.
+     * Obtener todos los roles del usuario.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getRoles();
 
     /**
-     * Check if the user has a role or roles.
+     * Get all permissions as collection.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPermisos();
+
+    /**
+     * Validar si usurio tiene un rol.
      *
      * @param int|string|array $role
      * @param bool $all
@@ -56,7 +70,7 @@ interface HasRoleAndPermission
     /**
      * Attach role to a user.
      *
-     * @param int|\Bican\Roles\Models\Role $role
+     * @param int|\Geeklopers\Roles\Models\Role $role
      * @return null|bool
      */
     public function attachRole($role);
@@ -64,7 +78,7 @@ interface HasRoleAndPermission
     /**
      * Detach role from a user.
      *
-     * @param int|\Bican\Roles\Models\Role $role
+     * @param int|\Geeklopers\Roles\Models\Role $role
      * @return int
      */
     public function detachRole($role);
@@ -89,20 +103,6 @@ interface HasRoleAndPermission
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function rolePermissions();
-
-    /**
-     * User belongs to many permissions.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function userPermissions();
-
-    /**
-     * Get all permissions as collection.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getPermissions();
 
     /**
      * Check if the user has a permission or permissions.
@@ -151,7 +151,7 @@ interface HasRoleAndPermission
     /**
      * Attach permission to a user.
      *
-     * @param int|\Bican\Roles\Models\Permission $permission
+     * @param int|\Geeklopers\Roles\Models\Permission $permission
      * @return null|bool
      */
     public function attachPermission($permission);
@@ -159,7 +159,7 @@ interface HasRoleAndPermission
     /**
      * Detach permission from a user.
      *
-     * @param int|\Bican\Roles\Models\Permission $permission
+     * @param int|\Geeklopers\Roles\Models\Permission $permission
      * @return int
      */
     public function detachPermission($permission);

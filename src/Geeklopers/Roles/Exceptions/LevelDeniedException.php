@@ -1,6 +1,6 @@
 <?php
 
-namespace Bican\Roles\Exceptions;
+namespace Geeklopers\Roles\Exceptions;
 
 class LevelDeniedException extends AccessDeniedException
 {
@@ -11,6 +11,6 @@ class LevelDeniedException extends AccessDeniedException
      */
     public function __construct($level)
     {
-        $this->message = sprintf("You don't have a required [%s] level.", $level);
+        $this->message = sprintf("El usuario ocupa un nivel [%s] para continuar.", $level);
     }
 }

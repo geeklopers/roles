@@ -1,6 +1,6 @@
 <?php
 
-namespace Bican\Roles\Exceptions;
+namespace Geeklopers\Roles\Exceptions;
 
 class RoleDeniedException extends AccessDeniedException
 {
@@ -11,6 +11,6 @@ class RoleDeniedException extends AccessDeniedException
      */
     public function __construct($role)
     {
-        $this->message = sprintf("You don't have a required ['%s'] role.", $role);
+        $this->message = sprintf("El usuario ocupara el rol ['%s'] para continuar.", $role);
     }
 }

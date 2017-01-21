@@ -1,12 +1,12 @@
 <?php
 
-namespace Bican\Roles\Middleware;
+namespace Geeklopers\Roles\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Bican\Roles\Exceptions\PermissionDeniedException;
+use Geeklopers\Roles\Exceptions\RoleDeniedException;
 
-class VerifyPermission
+class VerifyRole
 {
     /**
      * @var \Illuminate\Contracts\Auth\Guard
@@ -29,16 +29,16 @@ class VerifyPermission
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
-     * @param int|string $permission
+     * @param int|string $role
      * @return mixed
-     * @throws \Bican\Roles\Exceptions\PermissionDeniedException
+     * @throws \Geeklopers\Roles\Exceptions\RoleDeniedException
      */
-    public function handle($request, Closure $next, $permission)
+    public function handle($request, Closure $next, $role)
     {
-        if ($this->auth->check() && $this->auth->user()->can($permission)) {
+        if ($this->auth->check() && $this->auth->user()->is($role)) {
             return $next($request);
         }
 
-        throw new PermissionDeniedException($permission);
+        throw new RoleDeniedException($role);
     }
 }
