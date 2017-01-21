@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGeeklopersTable extends Migration
+class CreateRolesTable extends Migration
 {
     private $tablas = [
         'usuarios', 
@@ -39,7 +39,7 @@ class CreateGeeklopersTable extends Migration
         });
 
         Schema::create('modulos', function (Blueprint $table) {
-            $table->integer('id'):
+            $table->integer('id');
 
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
@@ -55,7 +55,7 @@ class CreateGeeklopersTable extends Migration
         });
 
         Schema::create('roles', function (Blueprint $table) {
-            $table->integer('id'):
+            $table->integer('id');
 
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
@@ -72,7 +72,7 @@ class CreateGeeklopersTable extends Migration
         });
 
         Schema::create('permisos', function (Blueprint $table) {
-            $table->integer('id'):
+            $table->integer('id');
             $table->integer('id_modulo')->nullable()->index();
 
             $table->string('vc_nombre');
@@ -90,7 +90,7 @@ class CreateGeeklopersTable extends Migration
         });
 
         Schema::create('usuarios_roles', function (Blueprint $table) {
-            $table->integer('id'):
+            $table->integer('id');
             $table->integer('id_usuario')->index();
             $table->integer('id_rol')->index();
 
@@ -106,7 +106,7 @@ class CreateGeeklopersTable extends Migration
         });
 
         Schema::create('usuarios_permisos', function (Blueprint $table) {
-            $table->integer('id'):
+            $table->integer('id');
 
             $table->integer('id_usuario')->index();
             $table->integer('id_permiso')->index();            
@@ -125,7 +125,7 @@ class CreateGeeklopersTable extends Migration
         });
 
         Schema::create('roles_permisos', function (Blueprint $table) {
-            $table->integer('id'):
+            $table->integer('id');
 
             $table->integer('id_rol')->index();
             $table->integer('id_permiso')->index();
@@ -137,8 +137,8 @@ class CreateGeeklopersTable extends Migration
             $table->softDeletes();
 
             $table->primary('id');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('permisos')->onDelete('cascade');
+            $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('id_permisp')->references('id')->on('permisos')->onDelete('cascade');
         });
 
         // Modificamos los timestamps
@@ -166,7 +166,7 @@ class CreateGeeklopersTable extends Migration
         Schema::drop('permissions');
         Schema::drop('modulos');
         Schema::drop('roles');
-        Schema::drop('usuarios')
+        Schema::drop('usuarios');
         
     }
 }
