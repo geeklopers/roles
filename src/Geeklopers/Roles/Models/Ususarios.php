@@ -2,21 +2,21 @@
 
 namespace Geeklopers\Roles\Models;
 
-use Geeklopers\Roles\Traits\Slugable;
 use Illuminate\Database\Eloquent\Model;
-use Geeklopers\Roles\Traits\RoleHasRelations;
-use Geeklopers\Roles\Contracts\RoleHasRelations as RoleHasRelationsContract;
+use Geeklopers\Roles\Traits\UsuariosRolesPermisos;
+use Geeklopers\Roles\Contracts\UsuariosRolesPermisos as UsuariosRolesPermisosContract;
 
-class Usuarios extends Model implements RoleHasRelationsContract
+class Usuarios extends Model implements UsuariosRolesPermisosContract
 {
-    use Slugable, RoleHasRelations;
+    use UsuariosRolesPermisos;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'description', 'level'];
+    protected $table = 'usuarios';
+    protected $fillable = ['vc_nombre', 'vc_email', 'vc_password'];
 
 }
  

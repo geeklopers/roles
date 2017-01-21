@@ -16,6 +16,6 @@ class Modulos extends Model
      */
 
     protected $table = 'modulos';
-    protected $fillable = ['vc_nombre', 'vc_slug', 'vc_descripcion', 'nu_nivel'];
+    protected $fillable = ['vc_nombre', 'vc_slug', 'vc_descripcion'];
 
 }

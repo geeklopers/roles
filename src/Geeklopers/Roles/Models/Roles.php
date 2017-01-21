@@ -4,18 +4,19 @@ namespace Geeklopers\Roles\Models;
 
 use Geeklopers\Roles\Traits\Slugable;
 use Illuminate\Database\Eloquent\Model;
-use Geeklopers\Roles\Traits\RoleHasRelations;
-use Geeklopers\Roles\Contracts\RoleHasRelations as RoleHasRelationsContract;
+use Geeklopers\Roles\Traits\RolesRelaciones;
+use Geeklopers\Roles\Contracts\RolesRelaciones as RolesRelacionesContract;
 
-class Role extends Model implements RoleHasRelationsContract
+class Roles extends Model implements RolesRelacionesContract
 {
-    use Slugable, RoleHasRelations;
+    use Slugable, RolesRelaciones;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'description', 'level'];
+    protected $table = 'roles';
+    protected $fillable = ['vc_nombre', 'vc_slug', 'vc_descripcion', 'nu_nivel'];
 
 }
