@@ -35,7 +35,7 @@ class VerifyLevel
      */
     public function handle($request, Closure $next, $level)
     {
-        if ($this->auth->check() && $this->auth->user()->level() >= $level) {
+        if ($this->auth->check() && $this->auth->user()->level() == $level) {
             return $next($request);
         }
 
