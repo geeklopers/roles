@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 trait UsuariosRolesPermisos
 {
-	/**
+    /**
      * Propiedad para guardar el rol.
      *
      * @var \Illuminate\Database\Eloquent\Model|null
@@ -20,7 +20,7 @@ trait UsuariosRolesPermisos
      *
      * @var \Illuminate\Database\Eloquent\Collection|null
      */
-    protected $rols;
+    protected $roles;
 
 
     /**
@@ -38,7 +38,7 @@ trait UsuariosRolesPermisos
      */
     public function roles()
     {
-        return $this->belongsToMany(config('roles.models.roles'))->withTimestamps();
+        return $this->belongsToMany(config('roles.models.roles'), 'usuarios_roles', 'id_usuario', 'id_rol')->withTimestamps();
     } 
 
     /**
@@ -48,7 +48,7 @@ trait UsuariosRolesPermisos
      */
     public function permisos()
     {
-        return $this->belongsToMany(config('roles.models.permisos'))->withTimestamps();
+        return $this->belongsToMany(config('roles.models.permisos'), 'usuarios_permisos', 'id_usuario', 'id_permiso')->withTimestamps();
     }
 
     /**
@@ -69,6 +69,9 @@ trait UsuariosRolesPermisos
      */
     public function setRol( Model $rol )
     {
+        if( !$this->hasRol( $rol->id ) )
+            throw new InvalidArgumentException("El usuario no cuenta con ese rol");
+
         $this->rol = $rol;
 
         return $this;
@@ -101,7 +104,7 @@ trait UsuariosRolesPermisos
      */
     public function nivel()
     {
-    	return ( !!$this->rol ) ? $this->rol->nu_nivel : 0;
+        return ( !!$this->rol ) ? $this->rol->nu_nivel : 0;
     }
 
     /**
@@ -111,24 +114,28 @@ trait UsuariosRolesPermisos
      */
     public function getRolPermisos()
     {
-    	if ( !$this->rol ) 
-    	{
+        if ( !$this->rol ) 
+        {
             throw new InvalidArgumentException('El usuario debe tener seleccionado un rol');
         }
 
-    	return $this->permisos()->where('id_rol', $this->rol->id );
+        return $this->permisos()->where('id_rol', $this->rol->id )->get();
     }
 
     /**
      * Check if the user has role.
      *
      * @param int|string $rol
+     * @param bool $actual
      * @return bool
      */
-    public function hasRol( $rol )
+    public function hasRol( $rol, $actual = false )
     {
+        if( $actual && !!$this->rol )
+            return $rol == $this->rol->id || Str::is($rol, $this->rol->vc_slug);
+
         return $this->getRoles()->contains(function ($key, $value) use ($rol) {
-            return $rol == $value->id || Str::is($rol, $value->slug);
+            return $rol == $value->id || Str::is($rol, $value->vc_slug);
         });
     }
 
@@ -141,10 +148,10 @@ trait UsuariosRolesPermisos
      */
     public function hasPermiso( $permiso, $rol = false )
     {
-    	$permisos = $rol ? $this->getRolPermisos() : $this->getPermisos();
+        $permisos = $rol ? $this->getRolPermisos() : $this->getPermisos();
 
         return $permisos->contains(function ($key, $value) use ($permiso) {
-            return $permiso == $value->id || Str::is($permiso, $value->slug);
+            return $permiso == $value->id || Str::is($permiso, $value->vc_slug);
         });
     }
 
@@ -173,7 +180,7 @@ trait UsuariosRolesPermisos
     public function isOne($rol)
     {
         foreach ($this->getArrayFrom($rol) as $rol) {
-            if ($this->hasRole($rol)) {
+            if ( $this->hasRol( $rol, true ) ) {
                 return true;
             }
         }
@@ -190,7 +197,7 @@ trait UsuariosRolesPermisos
     public function isAll($rol)
     {
         foreach ($this->getArrayFrom($rol) as $rol) {
-            if (!$this->hasRole($rol)) {
+            if ( !$this->hasRol( $rol, true ) ) {
                 return false;
             }
         }
@@ -254,7 +261,7 @@ trait UsuariosRolesPermisos
      * @param int|\Geeklopers\Roles\Models\Roles $rol
      * @return null|bool
      */
-    public function attachRole( Model $rol )
+    public function attachRol( Model $rol )
     {
         return (!$this->getRoles()->contains($rol)) ? $this->roles()->attach($rol) : true;
     }
@@ -265,7 +272,7 @@ trait UsuariosRolesPermisos
      * @param int|\Geeklopers\Roles\Models\Roles $rol
      * @return int
      */
-    public function detachRole($rol)
+    public function detachRol($rol)
     {
         $this->roles = null;
 
@@ -354,7 +361,7 @@ trait UsuariosRolesPermisos
     {
         foreach ($this->getPermisos() as $permiso) {
             if ($permiso->model != '' && get_class($entity) == $permiso->model
-                && ($permiso->id == $providedPermiso || $permiso->slug === $providedPermiso)
+                && ($permiso->id == $providedPermiso || $permiso->vc_slug === $providedPermiso)
             ) {
                 return true;
             }

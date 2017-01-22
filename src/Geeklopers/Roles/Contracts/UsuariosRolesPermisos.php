@@ -136,7 +136,7 @@ interface UsuariosRolesPermisos
      * @param int|\Geeklopers\Roles\Models\Roles $rol
      * @return null|bool
      */
-    public function attachRole( Model $rol );
+    public function attachRol( Model $rol );
 
     /**
      * Detach role from a user.
@@ -144,7 +144,7 @@ interface UsuariosRolesPermisos
      * @param int|\Geeklopers\Roles\Models\Roles $rol
      * @return int
      */
-    public function detachRole($rol);
+    public function detachRol($rol);
 
     /**
      * Detach all roles from a user.
@@ -186,13 +186,4 @@ interface UsuariosRolesPermisos
      * @return bool
      */
     public function allowed($providedPermiso, Model $entity, $owner = true, $ownerColumn = 'user_id');
-
-    /**
-     * Check if the user is allowed to manipulate with provided entity.
-     *
-     * @param string $providedPermiso
-     * @param \Illuminate\Database\Eloquent\Model $entity
-     * @return bool
-     */
-    protected function isAllowed($providedPermiso, Model $entity);
 }

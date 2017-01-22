@@ -11,7 +11,7 @@ trait RolesRelaciones
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function permisos();
+    public function permisos()
     {
         return $this->belongsToMany(config('roles.models.permisos'))->withTimestamps();
     }
@@ -21,7 +21,7 @@ trait RolesRelaciones
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function usuarios();
+    public function usuarios()
     {
         return $this->belongsToMany(config('roles.models.usuarios'))->withTimestamps();
     }
@@ -32,7 +32,7 @@ trait RolesRelaciones
      * @param int|\Geeklopers\Roles\Models\Permisos $permiso
      * @return int|bool
      */
-    public function attachPermiso( Model $permiso );
+    public function attachPermiso( Model $permiso )
     {
         return (!$this->permisos()->get()->contains($permiso)) ? $this->permisos()->attach($permiso) : true;
     }
@@ -43,7 +43,7 @@ trait RolesRelaciones
      * @param int|\Geeklopers\Roles\Models\Permisos $permiso
      * @return int
      */
-    public function detachPermiso( Model $permiso );
+    public function detachPermiso( Model $permiso )
     {
         return $this->permisos()->detach($permiso);
     }
@@ -53,7 +53,7 @@ trait RolesRelaciones
      *
      * @return int
      */
-    public function detachAllPermisos();
+    public function detachAllPermisos()
     {
         return $this->permisos()->detach();
     }
