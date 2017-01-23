@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateRolesTable extends Migration
 {
-    private $tablas = [
+    protected $tablas = [
         'usuarios', 
         'modulos', 
         'roles', 

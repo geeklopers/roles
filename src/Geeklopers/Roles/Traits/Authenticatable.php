@@ -6,9 +6,9 @@ use Illuminate\Auth\Authenticatable as AuthenticatableLaravel;
 
 trait Authenticatable
 {
-	use AuthenticatableLaravel;
+    use AuthenticatableLaravel;
 
-	
+    
     public function getRememberToken()
     {
         return null; // not supported
@@ -22,5 +22,9 @@ trait Authenticatable
     public function getRememberTokenName()
     {
         return null; // not supported
+    }
+
+    public function getAuthPassword() {
+        return $this->vc_password;
     }
 }

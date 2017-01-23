@@ -16,6 +16,6 @@ class Permisos extends Model implements PermisosRelacionesContract
      *
      * @var array
      */
-    protected $table = 'permisos'
+    protected $table = 'permisos';
     protected $fillable = ['id_modelo', 'vc_nombre', 'vc_slug', 'vc_descripcion'];
 }
