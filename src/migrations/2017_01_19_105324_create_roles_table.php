@@ -23,120 +23,110 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Schema::create( 'usuarios', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
 
             $table->string('vc_nombre');
             $table->string('vc_email')->unique();
             $table->string('vc_password', 60);
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->primary('id');
         });
 
         Schema::create('modulos', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
 
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
             $table->string('vc_descripcion')->nullable();
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->primary('id');
         });
 
         Schema::create('roles', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
 
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
             $table->string('vc_descripcion')->nullable();
             $table->integer('level')->default(1);
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->primary('id');
         });
 
         Schema::create('permisos', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('id_modulo')->nullable()->index();
+            $table->increments('id');
+            $table->integer('id_modulo')->unsigned->nullable()->index();
 
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
             $table->string('vc_descripcion')->nullable();
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id');
             $table->foreign('id_modulo')->references('id')->on('modulos')->onDelete('cascade');
         });
 
         Schema::create('usuarios_roles', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('id_usuario')->index();
-            $table->integer('id_rol')->index();
+            $table->increments('id');
+            $table->integer('id_usuario')->unsigned->index();
+            $table->integer('id_rol')->unsigned->index();
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id');
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('usuarios_permisos', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
 
-            $table->integer('id_usuario')->index();
-            $table->integer('id_permiso')->index();            
-            $table->integer('id_rol')->index();            
+            $table->integer('id_usuario')->unsigned->index();
+            $table->integer('id_permiso')->unsigned->index();            
+            $table->integer('id_rol')->unsigned->index();            
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id');
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('id_permiso')->references('id')->on('permisos')->onDelete('cascade');
             $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('roles_permisos', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
 
-            $table->integer('id_rol')->index();
-            $table->integer('id_permiso')->index();
+            $table->integer('id_rol')->unsigned->index();
+            $table->integer('id_permiso')->unsigned->index();
 
-            $table->tinyInteger('sn_activo');
-            $table->tinyInteger('sn_eliminado');
+            $table->tinyInteger('sn_activo')->default(1);
+            $table->tinyInteger('sn_eliminado')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id');
             $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('id_permiso')->references('id')->on('permisos')->onDelete('cascade');
         });
