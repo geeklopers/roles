@@ -67,7 +67,7 @@ class CreateRolesTable extends Migration
 
         Schema::create('permisos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_modulo')->unsigned->nullable()->index();
+            $table->integer('id_modulo')->unsigned()->nullable()->index();
 
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
@@ -84,8 +84,8 @@ class CreateRolesTable extends Migration
 
         Schema::create('usuarios_roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_usuario')->unsigned->index();
-            $table->integer('id_rol')->unsigned->index();
+            $table->integer('id_usuario')->unsigned()->index();
+            $table->integer('id_rol')->unsigned()->index();
 
             $table->tinyInteger('sn_activo')->default(1);
             $table->tinyInteger('sn_eliminado')->default(0);
@@ -100,9 +100,9 @@ class CreateRolesTable extends Migration
         Schema::create('usuarios_permisos', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('id_usuario')->unsigned->index();
-            $table->integer('id_permiso')->unsigned->index();            
-            $table->integer('id_rol')->unsigned->index();            
+            $table->integer('id_usuario')->unsigned()->index();
+            $table->integer('id_permiso')->unsigned()->index();            
+            $table->integer('id_rol')->unsigned()->index();            
 
             $table->tinyInteger('sn_activo')->default(1);
             $table->tinyInteger('sn_eliminado')->default(0);
@@ -118,8 +118,8 @@ class CreateRolesTable extends Migration
         Schema::create('roles_permisos', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('id_rol')->unsigned->index();
-            $table->integer('id_permiso')->unsigned->index();
+            $table->integer('id_rol')->unsigned()->index();
+            $table->integer('id_permiso')->unsigned()->index();
 
             $table->tinyInteger('sn_activo')->default(1);
             $table->tinyInteger('sn_eliminado')->default(0);
