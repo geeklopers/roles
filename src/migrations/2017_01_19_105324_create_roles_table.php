@@ -138,7 +138,7 @@ class CreateRolesTable extends Migration
 
             $table->primary('id');
             $table->foreign('id_rol')->references('id')->on('roles')->onDelete('cascade');
-            $table->foreign('id_permisp')->references('id')->on('permisos')->onDelete('cascade');
+            $table->foreign('id_permiso')->references('id')->on('permisos')->onDelete('cascade');
         });
 
         // Modificamos los timestamps
