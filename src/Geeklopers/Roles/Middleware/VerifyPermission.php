@@ -33,9 +33,9 @@ class VerifyPermission
      * @return mixed
      * @throws \Geeklopers\Roles\Exceptions\PermissionDeniedException
      */
-    public function handle($request, Closure $next, $permission)
+    public function handle($request, Closure $next, $permission, $all = false)
     {
-        if ($this->auth->check() && $this->auth->user()->can($permission)) {
+        if ($this->auth->check() && $this->auth->user()->can($permission, $all)) {
             return $next($request);
         }
 

@@ -2,12 +2,22 @@
 
 namespace Geeklopers\Roles\Traits;
 
+use Session;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 
 trait UsuariosRolesPermisos
 {
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct( $attributes );
+
+        $this->rol      = Session::get('usurio.rol');
+        $this->roles    = Session::get('usurio.roles');
+        $this->permisos = Session::get('usurio.permisos');
+    }
     /**
      * Propiedad para guardar el rol.
      *
@@ -58,7 +68,10 @@ trait UsuariosRolesPermisos
      */
     public function getRoles()
     {
-        return (!$this->roles) ? $this->roles = $this->roles()->get() : $this->roles;
+        $roles = (!$this->roles) ? $this->roles = $this->roles()->get() : $this->roles;
+        Session::put( 'usuario.roles', $roles );
+
+        return $roles;
     }
 
     /**
@@ -73,6 +86,7 @@ trait UsuariosRolesPermisos
             throw new InvalidArgumentException("El usuario no cuenta con ese rol");
 
         $this->rol = $rol;
+        Session::get(['usuario.rol' => $rol]);
 
         return $this;
     }
@@ -94,17 +108,9 @@ trait UsuariosRolesPermisos
      */
     public function getPermisos()
     {
-        return (!$this->permisos) ? $this->permisos = $this->permisos()->get() : $this->permisos;
-    }
-
-    /**
-     * Obtener el nivel del usuario
-     *
-     * @return int
-     */
-    public function nivel()
-    {
-        return ( !!$this->rol ) ? $this->rol->nu_nivel : 0;
+        $permisos = (!$this->permisos) ? $this->permisos = $this->permisos()->get() : $this->permisos;
+        Session::put('usuario.permisos', $permisos );
+        return $permisos;
     }
 
     /**
@@ -119,7 +125,20 @@ trait UsuariosRolesPermisos
             throw new InvalidArgumentException('El usuario debe tener seleccionado un rol');
         }
 
-        return $this->permisos()->where('id_rol', $this->rol->id )->get();
+        $permisos = $this->permisos()->where('id_rol', $this->rol->id )->get();
+        Session::put('usuario.permisos', $permisos );
+
+        return $permisos;
+    }
+
+    /**
+     * Obtener el nivel del usuario
+     *
+     * @return int
+     */
+    public function nivel()
+    {
+        return ( !!$this->rol ) ? $this->rol->nu_nivel : 0;
     }
 
     /**
