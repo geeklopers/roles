@@ -11,6 +11,10 @@ class Permisos extends Model implements PermisosRelacionesContract
 {
     use Slugable, PermisosRelaciones;
 
+    const CREATED_AT = 'dt_registro';
+    const UPDATED_AT = 'dt_editado';
+    const DELETED_AT = 'dt_eliminado';
+
     /**
      * The attributes that are mass assignable.
      *

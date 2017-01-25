@@ -56,7 +56,7 @@ class CreateRolesTable extends Migration
             $table->string('vc_nombre');
             $table->string('vc_slug')->unique();
             $table->string('vc_descripcion')->nullable();
-            $table->integer('level')->default(1);
+            $table->integer('nu_nivel')->default(1);
 
             $table->tinyInteger('sn_activo')->default(1);
             $table->tinyInteger('sn_eliminado')->default(0);
