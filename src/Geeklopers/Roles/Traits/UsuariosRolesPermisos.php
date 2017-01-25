@@ -14,9 +14,9 @@ trait UsuariosRolesPermisos
     {
         parent::__construct( $attributes );
 
-        $this->rol      = Session::get('usurio.rol');
-        $this->roles    = Session::get('usurio.roles');
-        $this->permisos = Session::get('usurio.permisos');
+        $this->rol      = Session::get('usuario.rol');
+        $this->roles    = Session::get('usuario.roles');
+        $this->permisos = Session::get('usuario.permisos');
     }
     /**
      * Propiedad para guardar el rol.
@@ -86,8 +86,8 @@ trait UsuariosRolesPermisos
             throw new InvalidArgumentException("El usuario no cuenta con ese rol");
 
         $this->rol = $rol;
-        Session::get(['usuario.rol' => $rol]);
-
+        Session::put('usuario.rol', $rol);
+        
         return $this;
     }
 
@@ -175,7 +175,7 @@ trait UsuariosRolesPermisos
     }
 
     /**
-     * Validar si usurio tiene un rol.
+     * Validar si usuario tiene un rol.
      *
      * @param int|string|array $rol
      * @param bool $all
