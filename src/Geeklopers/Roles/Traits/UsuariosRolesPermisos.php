@@ -12,11 +12,15 @@ trait UsuariosRolesPermisos
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct( $attributes );
+        // parent::__construct( $attributes );
 
-        $this->rol      = Session::get('usuario.rol');
-        $this->roles    = Session::get('usuario.roles');
-        $this->permisos = Session::get('usuario.permisos');
+        if( Session::has('auth.usuario.roles') && count( Session::get('auth.usuario.roles', []) ) )
+            $this->roles    = Session::get('auth.usuario.roles');
+
+        if( Session::has('auth.usuario.rol') && Session::has('auth.usuario.roles') && count( Session::get('auth.usuario.roles', []) ) )
+            $this->setRol( Session::get('auth.usuario.rol') );
+
+        $this->permisos = Session::get('auth.usuario.permisos');
     }
     /**
      * Propiedad para guardar el rol.
@@ -49,7 +53,7 @@ trait UsuariosRolesPermisos
     public function roles()
     {
         return $this->belongsToMany(config('roles.models.roles'), 'usuarios_roles', 'id_usuario', 'id_rol')->withTimestamps();
-    } 
+    }
 
     /**
      * User belongs to many permisos.
@@ -69,7 +73,7 @@ trait UsuariosRolesPermisos
     public function getRoles()
     {
         $roles = (!$this->roles) ? $this->roles = $this->roles()->get() : $this->roles;
-        Session::put( 'usuario.roles', $roles );
+        Session::put( 'auth.usuario.roles', $roles );
 
         return $roles;
     }
@@ -86,8 +90,8 @@ trait UsuariosRolesPermisos
             throw new InvalidArgumentException("El usuario no cuenta con ese rol");
 
         $this->rol = $rol;
-        Session::put('usuario.rol', $rol);
-        
+        Session::put('auth.usuario.rol', $rol);
+
         return $this;
     }
 
@@ -98,7 +102,7 @@ trait UsuariosRolesPermisos
      */
     public function getRol()
     {
-        return (!$this->roles) ? $this->roles = $this->roles()->get() : $this->roles;
+        return $this->rol;
     }
 
     /**
@@ -109,7 +113,7 @@ trait UsuariosRolesPermisos
     public function getPermisos()
     {
         $permisos = (!$this->permisos) ? $this->permisos = $this->permisos()->get() : $this->permisos;
-        Session::put('usuario.permisos', $permisos );
+        Session::put('auth.usuario.permisos', $permisos );
         return $permisos;
     }
 
@@ -120,13 +124,13 @@ trait UsuariosRolesPermisos
      */
     public function getRolPermisos()
     {
-        if ( !$this->rol ) 
+        if ( !$this->rol )
         {
             throw new InvalidArgumentException('El usuario debe tener seleccionado un rol');
         }
 
         $permisos = $this->permisos()->where('id_rol', $this->rol->id )->get();
-        Session::put('usuario.permisos', $permisos );
+        Session::put('auth.usuario.permisos', $permisos );
 
         return $permisos;
     }
@@ -223,7 +227,7 @@ trait UsuariosRolesPermisos
 
         return true;
     }
-    
+
     /**
      * Check if the user has a permiso or permisos.
      *
@@ -343,7 +347,7 @@ trait UsuariosRolesPermisos
     public function detachAllPermisos()
     {
         $this->permisos = null;
-        
+
         return $this->permisos()->detach();
     }
 
